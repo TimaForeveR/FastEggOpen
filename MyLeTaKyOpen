@@ -1,0 +1,40 @@
+local Window = OrionLib:MakeWindow({Name = "My GUI"})
+
+local Tab = Window:MakeTab({
+  Name = "Main",
+  Icon = "rbxassetid://4483345998"
+})
+
+Tab:AddToggle({
+  Name = "Auto Break Egg",
+  Default = false,
+  Callback = function(Value)
+    autoBreakEgg = Value
+    while autoBreakEgg and task.wait() do
+      local args = {
+        [1] = "1"
+      }
+      game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("PlayerPressedKeyOnEgg"):FireServer(unpack(args))
+    end
+  end
+})
+
+Tab:AddToggle({
+  Name = "Hide Animation",
+  Default = false,
+  Callback = function(Value)
+    autoHideAnimation = Value
+    while autoHideAnimation and task.wait() do
+      if workspace.Camera:FindFirstChild("EggOpenMap") then
+        workspace.Camera:FindFirstChild("EggOpenMap"):Destroy()
+      end
+    end
+  end
+})
+
+Tab:AddButton({
+  Name = "Claim UGC",
+  Callback = function()
+    game:GetService("ReplicatedStorage"):WaitForChild("Events"):WaitForChild("ClickedEventClaimButton"):FireServer()
+  end
+})
